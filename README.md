@@ -5,7 +5,7 @@ Android Sample app with central state management built upon [Redux-Kotlin](https
 
 ##  Tech stack:
 
-**Kotlin, Redux-Kotlin, Redux-Kotlin-Compose ,Jetpack Compose(UI), Ktor, Coroutines, Package by feature, Service Locator(DI).<br />
+**Kotlin, Redux-Kotlin, Redux-Kotlin-Compose , Compose, Ktor, Coroutines, Package by feature, Service Locator(DI).<br />
 The app can be migrated to be a multiplatform project easily since it's pure kotlin and UI is pure compose.**
 
 ##  Source Code representation :
