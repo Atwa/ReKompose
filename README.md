@@ -27,9 +27,9 @@ The app can be migrated to be a multiplatform project easily since it's pure kot
 
 ![Loading_Shimmer](loading_shimmer.png)
 ![Repositories](repositories.png)
-![Filtered Repositores](repositories_list_with_filter.png)
 ![Filters List](filters_list.png)
 ![Filters Dialog with Selected Filters](filters_dialog_selected.png)
+![Filtered Repositores](repositories_list_with_filter.png)
 ![Error](error_screen.png)
 
 ### Contribution
