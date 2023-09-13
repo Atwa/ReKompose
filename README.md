@@ -1,16 +1,7 @@
 # ReKompose
 Android Sample app with central state management built upon [Redux-Kotlin](https://github.com/reduxkotlin/redux-kotlin) & [Redux-Kotlin-Compose](https://github.com/reduxkotlin/redux-kotlin-compose).
 
-![Loading_Shimmer](loading_shimmer.jpg)
-![Repositories](repositories.jpg)
-![Filtered Repositores](repositories_list_with_filter.jpg)
-![Filters List](filter_list.jpg)
-![Filters Dialog with Selected Filters](filter_dialog_selected.jpg)
-![Error](error_screen.jpg)
-
-
-
-**ReKompose stands for : (Re -> Redux) + (Ko -> Kotlin) + (Kompose -> Compose) 
+**ReKompose stands for : (Re -> Redux) + (Ko -> Kotlin) + (Kompose -> Compose).**
 
 ##  Tech stack:
 
@@ -33,6 +24,13 @@ The app can be migrated to be a multiplatform project easily since it's pure kot
 - di : Dependency injection using Service locator design pattern.
 
 **Please note that each developer has his own style in coding ,The goal is to implement the concepts of the design and architecting in the right way .**
+
+![Loading_Shimmer](loading_shimmer.jpg)
+![Repositories](repositories.jpg)
+![Filtered Repositores](repositories_list_with_filter.jpg)
+![Filters List](filter_list.jpg)
+![Filters Dialog with Selected Filters](filter_dialog_selected.jpg)
+![Error](error_screen.jpg)
 
 ### Contribution
 
