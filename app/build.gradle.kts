@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 plugins {
     id("com.android.application")
     id("kotlinx-serialization")
@@ -59,6 +61,7 @@ dependencies {
 
     implementation("org.reduxkotlin:redux-kotlin-compose-jvm:$reduxKotlin")
     implementation("org.reduxkotlin:redux-kotlin-thunk-jvm:$reduxKotlin")
+    implementation("org.reduxkotlin:redux-kotlin-threadsafe:$reduxKotlin")
 
     implementation ("io.ktor:ktor-client-android:$ktorVersion")
     implementation ("io.ktor:ktor-client-serialization:$ktorVersion")

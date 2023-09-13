@@ -24,12 +24,13 @@ import com.atwa.rekompose.ui.theme.rekomposeSampleTheme
 import org.reduxkotlin.applyMiddleware
 import org.reduxkotlin.compose.StoreProvider
 import org.reduxkotlin.createTypedStore
+import org.reduxkotlin.threadsafe.createTypedThreadSafeStore
 import org.reduxkotlin.thunk.createThunkMiddleware
 
 
 @Composable
 fun AppStoreProvider() = StoreProvider(
-    createTypedStore(
+    createTypedThreadSafeStore(
         ::appReducer,
         AppState(),
         applyMiddleware(
