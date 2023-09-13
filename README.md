@@ -16,7 +16,7 @@ The app can be migrated to be a multiplatform project easily since it's pure kot
 - middleware : Middlewares that interrupts actions dispatched and can cause side effects if needed.
   - NetworkMiddleware : Designed as a thunk middleware that call repository functions responsible for calling api endpoints. 
   - LoggerMiddleware : Logging each dispatched action and it's corresponding produced state.
-- network : Base level viewModel and AppConstants class.
+- network : Networking client & logger configurations.
   - ApiClient : Singleton responsible for configuring Ktor client and invoking api calls through the configured client.
   - NetworkHttpLogger : Logger that logs network requests going through Ktor client.
 - store : Provides app store with root reducer and initial app state.
