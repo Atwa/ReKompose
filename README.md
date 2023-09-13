@@ -20,7 +20,7 @@ The app can be migrated to be a multiplatform project easily since it's pure kot
   - ApiClient : Singleton responsible for configuring Ktor client and invoking api calls through the configured client.
   - NetworkHttpLogger : Logger that logs network requests going through Ktor client.
 - store : Provides app store with root reducer and initial app state.
-- ui : Contains all ui related stuff throughout the app such as reusable components,themes and colors.
+- ui : Contains all ui related stuff throughout the app such as reusable components, themes and colors.
 - di : Dependency injection using Service locator design pattern.
 
 **Please note that each developer has his own style in coding ,The goal is to implement the concepts of the design and architecting in the right way .**
