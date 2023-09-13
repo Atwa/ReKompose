@@ -25,12 +25,12 @@ The app can be migrated to be a multiplatform project easily since it's pure kot
 
 **Please note that each developer has his own style in coding ,The goal is to implement the concepts of the design and architecting in the right way .**
 
-![Loading_Shimmer](loading_shimmer.jpg)
-![Repositories](repositories.jpg)
-![Filtered Repositores](repositories_list_with_filter.jpg)
-![Filters List](filter_list.jpg)
-![Filters Dialog with Selected Filters](filter_dialog_selected.jpg)
-![Error](error_screen.jpg)
+![Loading_Shimmer](loading_shimmer.png)
+![Repositories](repositories.png)
+![Filtered Repositores](repositories_list_with_filter.png)
+![Filters List](filter_list.png)
+![Filters Dialog with Selected Filters](filter_dialog_selected.png)
+![Error](error_screen.png)
 
 ### Contribution
 
