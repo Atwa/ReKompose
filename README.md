@@ -14,11 +14,15 @@ The app can be migrated to be a multiplatform project easily since it's pure kot
   - repositories : Repositories list screen showing list of Github trending repos and chips for selected language filters.
   - filter : Repositories language filters list enabling user to select/unselect language filters.
 - middleware : Middlewares that interrupts actions dispatched and can cause side effects if needed.
+  - coroutineDispatcherMiddleware : Executes Reducers and middlewares logic in another thread. 
   - NetworkMiddleware : Designed as a thunk middleware that call repository functions responsible for calling api endpoints. 
   - LoggerMiddleware : Logging each dispatched action and it's corresponding produced state.
 - network : Network client & logger configurations.
   - ApiClient : Singleton responsible for configuring Ktor client and invoking api calls through the configured client.
   - NetworkHttpLogger : Logger that logs network requests going through Ktor client.
+- threading : Achieving synchronization & Enhancing performance by using background thread.
+  - AppCoroutineScope : A coroutine scope using single thread context to synchronize store state. <br />
+    Improves performance by moving implementation into background thread aside from main thread. 
 - store : Provides app store with root reducer and initial app state.
 - ui : Contains all ui related stuff throughout the app such as reusable components, themes and colors.
 - di : Dependency injection using Service locator design pattern.
