@@ -14,7 +14,7 @@ The app can be migrated to be a multiplatform project easily since it's pure kot
   - repositories : Repositories list screen showing list of Github trending repos and chips for selected language filters.
   - filter : Repositories language filters list enabling user to select/unselect language filters.
 - middleware : Middlewares that interrupts actions dispatched and can cause side effects if needed.
-  - coroutineDispatcherMiddleware : Executes Reducers and middlewares logic in another thread. 
+  - coroutineDispatcherMiddleware : Executes Reducers and middlewares logic in a background thread. 
   - NetworkMiddleware : Designed as a thunk middleware that call repository functions responsible for calling api endpoints. 
   - LoggerMiddleware : Logging each dispatched action and it's corresponding produced state.
 - network : Network client & logger configurations.
