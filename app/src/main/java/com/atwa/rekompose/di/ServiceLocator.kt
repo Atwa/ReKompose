@@ -2,10 +2,12 @@ package com.atwa.rekompose.di
 
 import com.atwa.rekompose.feature.repositories.GithubTrendingRepo
 import com.atwa.rekompose.network.ApiClient
-import kotlinx.coroutines.Dispatchers
+import com.atwa.rekompose.threading.AppCoroutineScope
+import kotlinx.coroutines.*
 
 object ServiceLocator {
-    private val networkContext by lazy { Dispatchers.IO }
-    val githubRepo by lazy { GithubTrendingRepo(networkContext, ApiClient) }
+    @OptIn(DelicateCoroutinesApi::class)
+    val coroutineScope by lazy { AppCoroutineScope }
+    val githubRepo by lazy { GithubTrendingRepo(coroutineScope, ApiClient) }
 }
 

@@ -1,11 +1,13 @@
 package com.atwa.rekompose.feature.repositories
 
+import android.util.Log
 import com.atwa.rekompose.feature.repositories.RepositoriesAction.*
 import org.reduxkotlin.Reducer
 import org.reduxkotlin.typedReducer
 
 val repositoriesReducer: Reducer<RepositoriesState> =
     typedReducer<RepositoriesState, RepositoriesAction> { state, action ->
+        Log.d("THREAD NAME : ","Reducer running on thread ${Thread.currentThread().name}")
         when (action) {
             is FetchingRepositories -> state.copy(isLoading = true)
             is FetchRepositoriesSuccess -> state.copy(

@@ -1,24 +1,26 @@
 package com.atwa.rekompose.feature.repositories
 
+import android.util.Log
 import com.atwa.rekompose.feature.filter.RepositoryLanguageFilter
 import com.atwa.rekompose.network.ApiClient
 import com.atwa.rekompose.store.AppState
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.reduxkotlin.thunk.Thunk
 import kotlin.coroutines.CoroutineContext
 
 class GithubTrendingRepo(
-    private val networkContext: CoroutineContext,
+    private val scope: CoroutineScope,
     private val apiClient: ApiClient,
-) : CoroutineScope {
-    override val coroutineContext: CoroutineContext
-        get() = networkContext + Job()
+)  {
 
-    fun fetchTrendingRepo(query: String = "language"): Thunk<AppState> =
+
+    suspend fun fetchTrendingRepo(query: String = "language"): Thunk<AppState> =
         { dispatch, getState, extraArg ->
-            launch {
+            scope.launch {
+                Log.d("THREAD NAME : ","Repository running on thread ${Thread.currentThread().name}")
                 dispatch(RepositoriesAction.FetchingRepositories)
                 val result = apiClient.invokeCall<RepositoriesResponse>(
                     FETCH_REPOS,
@@ -34,7 +36,7 @@ class GithubTrendingRepo(
 
     fun fetchLanguageFilters(): Thunk<AppState> =
         { dispatch, getState, extraArg ->
-            launch {
+            scope.launch(Dispatchers.IO) {
                 dispatch(RepositoriesAction.FetchingLanguageFilters)
                 val languageFilters = mutableListOf(
                     RepositoryLanguageFilter(1, "Python"),

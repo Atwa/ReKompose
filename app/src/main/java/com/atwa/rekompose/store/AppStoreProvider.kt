@@ -13,17 +13,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.atwa.rekompose.R
+import com.atwa.rekompose.di.ServiceLocator.coroutineScope
 import com.atwa.rekompose.di.ServiceLocator.githubRepo
 import com.atwa.rekompose.feature.filter.RepositoryFilterDialog
 import com.atwa.rekompose.feature.repositories.RepositoriesScreen
 import com.atwa.rekompose.feature.repositories.RepositoriesState
 import com.atwa.rekompose.feature.repositories.repositoriesReducer
+import com.atwa.rekompose.middleware.coroutineDispatcherMiddleware
 import com.atwa.rekompose.middleware.loggerMiddleware
 import com.atwa.rekompose.middleware.networkMiddleware
 import com.atwa.rekompose.ui.theme.rekomposeSampleTheme
 import org.reduxkotlin.applyMiddleware
 import org.reduxkotlin.compose.StoreProvider
-import org.reduxkotlin.createTypedStore
 import org.reduxkotlin.threadsafe.createTypedThreadSafeStore
 import org.reduxkotlin.thunk.createThunkMiddleware
 
@@ -35,8 +36,9 @@ fun AppStoreProvider() = StoreProvider(
         AppState(),
         applyMiddleware(
             createThunkMiddleware(),
-            networkMiddleware(githubRepo),
-            loggerMiddleware
+            coroutineDispatcherMiddleware(coroutineScope),
+            networkMiddleware(githubRepo, coroutineScope),
+            loggerMiddleware()
         )
     )
 ) {
