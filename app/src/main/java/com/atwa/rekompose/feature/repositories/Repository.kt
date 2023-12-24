@@ -1,7 +1,14 @@
 package com.atwa.rekompose.feature.repositories
 
-import com.atwa.rekompose.ui.theme.*
-import kotlinx.serialization.Serializable
+import com.atwa.rekompose.designsystem.theme.Blue
+import com.atwa.rekompose.designsystem.theme.BlueNavy
+import com.atwa.rekompose.designsystem.theme.BrownOrange
+import com.atwa.rekompose.designsystem.theme.Cyan
+import com.atwa.rekompose.designsystem.theme.Grey200
+import com.atwa.rekompose.designsystem.theme.Pink
+import com.atwa.rekompose.designsystem.theme.Purple100
+import com.atwa.rekompose.designsystem.theme.Purple400
+import com.atwa.rekompose.designsystem.theme.Yellow
 
 @kotlinx.serialization.Serializable
 data class Repository(

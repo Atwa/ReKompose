@@ -2,7 +2,7 @@ package com.atwa.rekompose.feature.repositories
 
 import android.util.Log
 import com.atwa.rekompose.feature.filter.RepositoryLanguageFilter
-import com.atwa.rekompose.network.ApiClient
+import com.atwa.rekompose.core.network.ApiClient
 import com.atwa.rekompose.store.AppState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +15,6 @@ class GithubTrendingRepo(
     private val scope: CoroutineScope,
     private val apiClient: ApiClient,
 )  {
-
 
     suspend fun fetchTrendingRepo(query: String = "language"): Thunk<AppState> =
         { dispatch, getState, extraArg ->

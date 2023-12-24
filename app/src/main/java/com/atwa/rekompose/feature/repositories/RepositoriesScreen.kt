@@ -31,9 +31,9 @@ import com.atwa.rekompose.R
 import com.atwa.rekompose.feature.filter.RepositoryFilterChips
 import com.atwa.rekompose.feature.filter.RepositoryLanguageFilter
 import com.atwa.rekompose.store.AppState
-import com.atwa.rekompose.ui.components.ShimmerItem
-import com.atwa.rekompose.ui.theme.Grey200
-import com.atwa.rekompose.ui.theme.Teal500
+import com.atwa.rekompose.designsystem.components.ShimmerItem
+import com.atwa.rekompose.designsystem.theme.Grey200
+import com.atwa.rekompose.designsystem.theme.Teal500
 import org.reduxkotlin.compose.rememberDispatcher
 import org.reduxkotlin.compose.selectState
 

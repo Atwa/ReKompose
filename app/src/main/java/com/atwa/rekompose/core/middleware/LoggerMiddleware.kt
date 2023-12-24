@@ -1,4 +1,4 @@
-package com.atwa.rekompose.middleware
+package com.atwa.rekompose.core.middleware
 
 import android.util.Log
 import com.atwa.rekompose.store.AppState

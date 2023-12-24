@@ -1,4 +1,4 @@
-package com.atwa.rekompose.ui.theme
+package com.atwa.rekompose.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -1,4 +1,4 @@
-package com.atwa.rekompose.threading
+package com.atwa.rekompose.core.threading
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi

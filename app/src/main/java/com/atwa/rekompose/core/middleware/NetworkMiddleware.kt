@@ -1,4 +1,4 @@
-package com.atwa.rekompose.middleware
+package com.atwa.rekompose.core.middleware
 
 import com.atwa.rekompose.feature.repositories.GithubTrendingRepo
 import com.atwa.rekompose.feature.repositories.RepositoriesAction.FetchLanguageFilters

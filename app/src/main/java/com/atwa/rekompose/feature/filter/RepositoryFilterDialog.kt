@@ -15,8 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.atwa.rekompose.feature.repositories.RepositoriesAction
 import com.atwa.rekompose.store.AppState
-import com.atwa.rekompose.ui.theme.BlueNavy
-import com.atwa.rekompose.ui.theme.Grey200
+import com.atwa.rekompose.designsystem.theme.BlueNavy
+import com.atwa.rekompose.designsystem.theme.Grey200
 import org.reduxkotlin.compose.rememberTypedDispatcher
 import org.reduxkotlin.compose.selectState
 

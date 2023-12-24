@@ -13,16 +13,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.atwa.rekompose.R
-import com.atwa.rekompose.di.ServiceLocator.coroutineScope
-import com.atwa.rekompose.di.ServiceLocator.githubRepo
+import com.atwa.rekompose.core.di.ServiceLocator.coroutineScope
+import com.atwa.rekompose.core.di.ServiceLocator.githubRepo
 import com.atwa.rekompose.feature.filter.RepositoryFilterDialog
 import com.atwa.rekompose.feature.repositories.RepositoriesScreen
 import com.atwa.rekompose.feature.repositories.RepositoriesState
 import com.atwa.rekompose.feature.repositories.repositoriesReducer
-import com.atwa.rekompose.middleware.coroutineDispatcherMiddleware
-import com.atwa.rekompose.middleware.loggerMiddleware
-import com.atwa.rekompose.middleware.networkMiddleware
-import com.atwa.rekompose.ui.theme.rekomposeSampleTheme
+import com.atwa.rekompose.core.middleware.coroutineDispatcherMiddleware
+import com.atwa.rekompose.core.middleware.loggerMiddleware
+import com.atwa.rekompose.core.middleware.networkMiddleware
+import com.atwa.rekompose.designsystem.theme.rekomposeSampleTheme
 import org.reduxkotlin.applyMiddleware
 import org.reduxkotlin.compose.StoreProvider
 import org.reduxkotlin.threadsafe.createTypedThreadSafeStore
@@ -30,7 +30,7 @@ import org.reduxkotlin.thunk.createThunkMiddleware
 
 
 @Composable
-fun AppStoreProvider() = StoreProvider(
+fun AppStore() = StoreProvider(
     createTypedThreadSafeStore(
         ::appReducer,
         AppState(),

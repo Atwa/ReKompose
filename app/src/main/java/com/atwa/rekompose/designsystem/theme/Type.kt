@@ -1,4 +1,4 @@
-package com.atwa.rekompose.ui.theme
+package com.atwa.rekompose.designsystem.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

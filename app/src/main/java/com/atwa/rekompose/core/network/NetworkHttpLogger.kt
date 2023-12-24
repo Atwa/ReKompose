@@ -1,4 +1,4 @@
-package com.atwa.rekompose.network
+package com.atwa.rekompose.core.network
 
 import android.util.Log
 import io.ktor.client.features.logging.*

@@ -1,4 +1,4 @@
-package com.atwa.rekompose.ui.components
+package com.atwa.rekompose.designsystem.components
 
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -18,9 +18,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import com.atwa.rekompose.ui.theme.Grey200
-import com.atwa.rekompose.ui.theme.Grey500
-import com.atwa.rekompose.ui.theme.Grey700
+import com.atwa.rekompose.designsystem.theme.Grey200
+import com.atwa.rekompose.designsystem.theme.Grey500
+import com.atwa.rekompose.designsystem.theme.Grey700
 
 @Composable
 fun ShimmerItem(modifier: Modifier) {

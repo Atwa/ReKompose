@@ -3,16 +3,15 @@ package com.atwa.rekompose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.atwa.rekompose.di.ServiceLocator.coroutineScope
-import com.atwa.rekompose.store.AppStoreProvider
-import kotlinx.coroutines.cancel
+import com.atwa.rekompose.core.di.ServiceLocator.coroutineScope
+import com.atwa.rekompose.store.AppStore
 
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            AppStoreProvider()
+            AppStore()
         }
     }
 
