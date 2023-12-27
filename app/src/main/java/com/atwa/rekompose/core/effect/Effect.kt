@@ -1,70 +1,49 @@
 package com.atwa.rekompose.core.effect
 
-import kotlinx.coroutines.FlowPreview
+import com.atwa.rekompose.store.Action
+import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.flattenConcat
-import kotlinx.coroutines.flow.flattenMerge
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
+import kotlin.experimental.ExperimentalTypeInference
 
-@OptIn(FlowPreview::class)
-class Effect<Output>(internal var flow: Flow<Output>) {
+/**
+ * Effects are returned by reducers when they wish to produce a side effect.
+ * This can be anything from cpu/io bound operations to changes that simply affect the UI.
+ * @see Reducer.reduce
+ */
+fun interface Effect<out Action> {
+
+    /**
+     * Executes the effect. This operation can produce side effects, and it's the
+     * responsibility of the class implementing this interface to change threads
+     * to prevent blocking the UI when needed.
+     * @return An action that will be sent again for further processing
+     * @see Store.send
+     */
+    suspend fun run(): Action?
 
     companion object {
-        operator fun <Output> invoke(
-            block: suspend FlowCollector<Output>.() -> Unit,
-        ): Effect<Output> = Effect(flow(block))
-
-        fun <Output> none() = Effect<Output>(emptyFlow())
-
-        fun <Action> of(vararg actions: Action): Effect<Action> =
+        fun none(): Effect<Nothing> = NoEffect
+        /*fun <Action> of(vararg actions: Action): Effect<Action> =
             Effect { flowOf(*actions) }
 
-        fun <Action> fromSuspend(func: suspend () -> Action): Effect<Action> =
-            Effect { func.asFlow() }
-    }
+        fun <Action> fromFlow(flow: Flow<Action>): Effect<Action> =
+            Effect { flow }*/
 
-    fun <T> map(transform: (Output) -> T): Effect<T> = Effect(flow.map { transform(it) })
+        fun <Action> fromSuspend(func: suspend () -> Action?): Effect<Action> =
+            Effect { func() }
 
-    @OptIn(FlowPreview::class)
-    fun concatenate(vararg effects: Effect<Output>) {
-        flow = flowOf(flow, *effects.map { it.flow }.toTypedArray()).flattenConcat()
-    }
-
-    @OptIn(FlowPreview::class)
-    fun merge(vararg effects: Effect<Output>) {
-        flow = flowOf(flow, *effects.map { it.flow }.toTypedArray()).flattenMerge()
-    }
-
-    suspend fun sink(): List<Output> {
-        val outputs = mutableListOf<Output>()
-        flow.toList(outputs)
-        return outputs
+        /*@OptIn(ExperimentalTypeInference::class)
+        fun <Action> fromProducer(@BuilderInference block: suspend ProducerScope<Action>.() -> Unit): Effect<Action> =
+            Effect { kotlinx.coroutines.flow.callbackFlow(block) }*/
     }
 }
 
-fun <State, Output> State.withNoEffect(): Result<State, Output> =
-    Result(this, Effect.none())
 
-fun <State, Output> State.withEffect(
-    block: suspend FlowCollector<Output>.() -> Unit,
-): Result<State, Output> =
-    Result(this, Effect(flow(block)))
 
-fun <State, Action : Any> State.withSuspendEffect(
-    id: Any,
-    cancelInFlight: Boolean = false,
-    func: suspend () -> Action,
-): ReduceResult<State, Action> =
-    ReduceResult(this, Effect.fromSuspend(func).cancellable(id, cancelInFlight))
-
-data class Result<out State, Action>(val state: State, val effect: Effect<Action>)
-data class ReduceResult<out State, Action>(
-    val state: State,
-    val effect: Effect<Action>,
-)
+object NoEffect : Effect<Nothing> {
+    override suspend fun run() = null
+}

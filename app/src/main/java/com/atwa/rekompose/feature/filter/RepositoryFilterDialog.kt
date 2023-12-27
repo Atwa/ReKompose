@@ -13,6 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.atwa.rekompose.core.effect.rememberAffectedDispatcher
+import com.atwa.rekompose.core.effect.selectAffectedState
 import com.atwa.rekompose.feature.repositories.RepositoriesAction
 import com.atwa.rekompose.store.AppState
 import com.atwa.rekompose.designsystem.theme.BlueNavy
@@ -24,9 +26,9 @@ import org.reduxkotlin.compose.selectState
 fun RepositoryFilterDialog(
     onDismissRequest: () -> Unit,
 ) {
-    val filters by selectState<AppState, List<RepositoryLanguageFilter>> { repositories.filters }
-    val loading by selectState<AppState, Boolean> { repositories.dialogLoading }
-    val dispatch = rememberTypedDispatcher<RepositoriesAction>()
+    val filters by selectAffectedState<AppState, List<RepositoryLanguageFilter>> { repositories.filters }
+    val loading by selectAffectedState<AppState, Boolean> { repositories.dialogLoading }
+    val dispatch = rememberAffectedDispatcher<RepositoriesAction>()
     LaunchedEffect(Unit) {
         if (filters.isEmpty())
             dispatch(RepositoriesAction.FetchLanguageFilters)

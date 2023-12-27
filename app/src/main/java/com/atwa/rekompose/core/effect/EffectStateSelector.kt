@@ -1,0 +1,42 @@
+package com.atwa.rekompose.core.effect
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisallowComposableCalls
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import org.reduxkotlin.TypedStore
+
+/**
+ * Selects a value from the local store.
+ * @param selector to extract the value
+ * @param State state type
+ * @param Slice extracted value type
+ * @return selected value
+ */
+@Composable
+public inline fun <reified State, Slice> selectAffectedState(
+    crossinline selector: @DisallowComposableCalls State.() -> Slice
+): androidx.compose.runtime.State<Slice> {
+    return rememberAffectedStore<State,Any>().selectState(selector)
+}
+
+/**
+ * Selects a value from the local store.
+ * @receiver a store to extract the value from
+ * @param selector to extract the value
+ * @param State state type
+ * @param Slice extracted value type
+ * @return selected value
+ */
+@Composable
+public inline fun <State, Slice> AffectedStore<State, *>.selectState(
+    crossinline selector: @DisallowComposableCalls State.() -> Slice
+): androidx.compose.runtime.State<Slice> {
+    val result = remember { mutableStateOf(state.selector()) }
+    DisposableEffect(result) {
+        val unsubscribe = subscribe { result.value = state.selector() }
+        onDispose(unsubscribe)
+    }
+    return result
+}

@@ -1,17 +1,30 @@
 package com.atwa.rekompose.feature.repositories
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ButtonDefaults.buttonColors
-import androidx.compose.runtime.*
+import androidx.compose.material3.Divider
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,22 +41,21 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.atwa.rekompose.R
-import com.atwa.rekompose.feature.filter.RepositoryFilterChips
-import com.atwa.rekompose.feature.filter.RepositoryLanguageFilter
-import com.atwa.rekompose.store.AppState
+import com.atwa.rekompose.core.effect.rememberAffectedDispatcher
+import com.atwa.rekompose.core.effect.selectAffectedState
 import com.atwa.rekompose.designsystem.components.ShimmerItem
 import com.atwa.rekompose.designsystem.theme.Grey200
 import com.atwa.rekompose.designsystem.theme.Teal500
-import org.reduxkotlin.compose.rememberDispatcher
-import org.reduxkotlin.compose.selectState
+import com.atwa.rekompose.feature.filter.RepositoryFilterChips
+import com.atwa.rekompose.feature.filter.RepositoryLanguageFilter
+import com.atwa.rekompose.store.AppState
 
 
 @Composable
 fun RepositoriesScreen() {
-
-    val state by selectState<AppState, RepositoriesState> { repositories }
-    val filters by selectState<AppState, List<RepositoryLanguageFilter>> { repositories.selectedFilters }
-    val dispatch = rememberDispatcher()
+    val state by selectAffectedState<AppState, RepositoriesState> { repositories }
+    val filters by selectAffectedState<AppState, List<RepositoryLanguageFilter>> { repositories.selectedFilters }
+    val dispatch = rememberAffectedDispatcher<RepositoriesAction>()
     LaunchedEffect(Unit) {
         dispatch(RepositoriesAction.FetchRepositories)
     }
