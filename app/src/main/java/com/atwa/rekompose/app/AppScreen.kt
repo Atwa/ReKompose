@@ -1,5 +1,6 @@
-package com.atwa.rekompose.store
+package com.atwa.rekompose.app
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,10 +27,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.atwa.rekompose.R
 import com.atwa.rekompose.designsystem.theme.rekomposeSampleTheme
-import com.atwa.rekompose.feature.filter.RepositoryFilterDialog
-import com.atwa.rekompose.feature.repositories.RepositoriesScreen
+import com.atwa.rekompose.feature.filter.presentation.RepositoryFilterDialog
+import com.atwa.rekompose.feature.repositories.presentation.RepositoriesScreen
 
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppScreen() {

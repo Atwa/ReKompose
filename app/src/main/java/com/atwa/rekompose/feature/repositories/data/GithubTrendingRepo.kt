@@ -1,24 +1,27 @@
-package com.atwa.rekompose.feature.repositories
+package com.atwa.rekompose.feature.repositories.data
 
+import android.util.Log
+import com.atwa.rekompose.app.Action
 import com.atwa.rekompose.core.network.ApiClient
-import com.atwa.rekompose.feature.filter.LanguageFilter
-import kotlinx.coroutines.CoroutineScope
+import com.atwa.rekompose.feature.filter.domain.LanguageFilter
+import com.atwa.rekompose.feature.repositories.presentation.RepositoriesAction
+import com.atwa.rekompose.feature.repositories.presentation.RepositoriesAction.FetchRepositoriesResult
 import kotlinx.coroutines.flow.flow
 
 class GithubTrendingRepo(
-    private val scope: CoroutineScope,
     private val apiClient: ApiClient,
 ) {
 
-    fun fetchTrendingRepo(query: String = "language") = flow {
-        emit(RepositoriesAction.FetchRepositories.loading())
+    fun fetchTrendingRepo(query: String = "language") = flow<Action> {
+        Log.d("THREAD NAME : ", "Repo running on thread ${Thread.currentThread().name}")
+        emit(FetchRepositoriesResult.loading())
         apiClient.invokeCall<RepositoriesResponse>(
             FETCH_REPOS,
             hashMapOf(Pair("q", query))
         ).fold({ response ->
-            RepositoriesAction.FetchRepositories.success(response.items.map { it.toDomain() })
+            FetchRepositoriesResult.success(response.items.map { it.toDomain() })
         }, { error ->
-            RepositoriesAction.FetchRepositories.failure(error)
+            FetchRepositoriesResult.failure(error)
         }).let { emit(it) }
     }
 
@@ -33,7 +36,7 @@ class GithubTrendingRepo(
             LanguageFilter(7, "JavaScript"),
             LanguageFilter(8, "Julia")
         ).let { filters ->
-            emit(RepositoriesAction.FetchLanguageFilters.success(filters))
+            emit(RepositoriesAction.FetchLanguageFiltersResult().success(filters))
         }
     }
 

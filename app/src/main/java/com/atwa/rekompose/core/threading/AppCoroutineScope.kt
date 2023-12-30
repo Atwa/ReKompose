@@ -1,13 +1,16 @@
 package com.atwa.rekompose.core.threading
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.cancelChildren
 
 object AppCoroutineScope : CoroutineScope {
-    @OptIn(DelicateCoroutinesApi::class)
-    override val coroutineContext = newSingleThreadContext("Redux-Thread")
-
-    fun cancel() = coroutineContext.close()
+    override val coroutineContext = Dispatchers.Main + Job()
+    fun cancel() {
+        coroutineContext.cancelChildren()
+        coroutineContext.cancel()
+    }
 
 }

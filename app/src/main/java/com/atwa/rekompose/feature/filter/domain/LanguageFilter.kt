@@ -1,4 +1,4 @@
-package com.atwa.rekompose.feature.filter
+package com.atwa.rekompose.feature.filter.domain
 
 data class LanguageFilter(
     val id:Int,

@@ -1,4 +1,4 @@
-package com.atwa.rekompose.feature.repositories
+package com.atwa.rekompose.feature.repositories.presentation
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -41,21 +41,22 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.atwa.rekompose.R
-import com.atwa.rekompose.core.effect.rememberAffectedDispatcher
-import com.atwa.rekompose.core.effect.selectAffectedState
 import com.atwa.rekompose.designsystem.components.ShimmerItem
 import com.atwa.rekompose.designsystem.theme.Grey200
 import com.atwa.rekompose.designsystem.theme.Teal500
-import com.atwa.rekompose.feature.filter.RepositoryFilterChips
-import com.atwa.rekompose.feature.filter.LanguageFilter
-import com.atwa.rekompose.store.AppState
+import com.atwa.rekompose.feature.filter.domain.LanguageFilter
+import com.atwa.rekompose.feature.filter.presentation.RepositoryFilterChips
+import com.atwa.rekompose.app.AppState
+import com.atwa.rekompose.feature.repositories.domain.Repository
+import org.reduxkotlin.compose.rememberDispatcher
+import org.reduxkotlin.compose.selectState
 
 
 @Composable
 fun RepositoriesScreen() {
-    val state by selectAffectedState<AppState, RepositoriesState> { repositories }
-    val filters by selectAffectedState<AppState, List<LanguageFilter>> { repositories.selectedFilters }
-    val dispatch = rememberAffectedDispatcher<RepositoriesAction>()
+    val state by selectState<AppState, RepositoriesState> { repositories }
+    val filters by selectState<AppState, List<LanguageFilter>> { repositories.selectedFilters }
+    val dispatch = rememberDispatcher()
     LaunchedEffect(true) {
         dispatch(RepositoriesAction.FetchRepositories)
     }

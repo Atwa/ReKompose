@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.atwa.rekompose.core.di.ServiceLocator.coroutineScope
-import com.atwa.rekompose.store.AppStore
+import com.atwa.rekompose.app.AppStore
 
 class MainActivity : ComponentActivity() {
 

@@ -1,4 +1,4 @@
-package com.atwa.rekompose.feature.repositories
+package com.atwa.rekompose.feature.repositories.domain
 
 import com.atwa.rekompose.designsystem.theme.Blue
 import com.atwa.rekompose.designsystem.theme.BlueNavy

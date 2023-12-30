@@ -1,27 +1,31 @@
-package com.atwa.rekompose.feature.repositories
+package com.atwa.rekompose.feature.repositories.presentation
 
 import android.util.Log
+import com.atwa.rekompose.app.Action
+import com.atwa.rekompose.core.async.AsyncAction
+import com.atwa.rekompose.core.async.AsyncResult
+import com.atwa.rekompose.core.async.ResultAction
 import com.atwa.rekompose.core.di.ServiceLocator
-import com.atwa.rekompose.core.effect.affectedReducer
-import com.atwa.rekompose.core.effect.withNoEffect
-import com.atwa.rekompose.core.middleware.AsyncAction
-import com.atwa.rekompose.core.middleware.AsyncResult
-import com.atwa.rekompose.feature.filter.LanguageFilter
-import com.atwa.rekompose.store.Action
+import com.atwa.rekompose.feature.filter.domain.LanguageFilter
+import com.atwa.rekompose.feature.repositories.domain.Repository
+import com.atwa.rekompose.feature.repositories.presentation.RepositoriesAction.FetchLanguageFiltersResult
+import com.atwa.rekompose.feature.repositories.presentation.RepositoriesAction.FetchRepositoriesResult
+import com.atwa.rekompose.feature.repositories.presentation.RepositoriesAction.UpdateFilterSelection
+import org.reduxkotlin.typedReducer
 
 sealed interface RepositoriesAction : Action {
-    object FetchRepositories : RepositoriesAction, AsyncAction<List<Repository>>({
-        ServiceLocator.githubRepo.fetchTrendingRepo()
-    })
+    object FetchRepositories : RepositoriesAction, AsyncAction {
+        override fun run() = ServiceLocator.githubRepo.fetchTrendingRepo()
+    }
 
-    object FetchLanguageFilters : RepositoriesAction, AsyncAction<List<LanguageFilter>>({
-        ServiceLocator.githubRepo.fetchLanguageFilters()
-    })
+    object FetchLanguageFilters : RepositoriesAction, AsyncAction {
+        override fun run() = ServiceLocator.githubRepo.fetchLanguageFilters()
+    }
 
+    object FetchRepositoriesResult : RepositoriesAction, ResultAction<List<Repository>>()
+    object FetchLanguageFiltersResult : RepositoriesAction, ResultAction<List<LanguageFilter>>()
     data class UpdateFilterSelection(val id: Int, val isSelected: Boolean) : RepositoriesAction
 }
-
-
 
 data class RepositoriesState(
     val isLoading: Boolean = false,
@@ -33,36 +37,36 @@ data class RepositoriesState(
     val dialogLoading: Boolean = false,
 )
 
-
-val repositoriesReducer = affectedReducer<RepositoriesState, Action> { state, effect, action ->
+val repositoriesReducer = typedReducer<RepositoriesState, Action> { state, action ->
     Log.d("THREAD NAME : ", "Reducer running on thread ${Thread.currentThread().name}")
     when (action) {
-        is RepositoriesAction.FetchRepositories -> when (action.result) {
-            is AsyncResult.Loading -> state.copy(isLoading = true).withNoEffect()
+        is FetchRepositoriesResult -> when (action.result) {
+            is AsyncResult.Loading -> state.copy(isLoading = true)
             is AsyncResult.Success -> state.copy(
                 isLoading = false,
                 error = null,
-                repositories = action.data!!,
-                filteredRepositories = action.result.data.toMutableList()
-            ).withNoEffect()
+                repositories = action.data,
+                filteredRepositories = action.data.toMutableList()
+            )
+
             is AsyncResult.Failure -> state.copy(
                 isLoading = false,
-                error = action.error!!,
+                error = action.error,
                 repositories = listOf()
-            ).withNoEffect()
+            )
         }
 
-        is RepositoriesAction.FetchLanguageFilters -> when (action.result) {
-            is AsyncResult.Loading -> state.copy(dialogLoading = true).withNoEffect()
-            is AsyncResult.Failure -> state.withNoEffect()
+        is FetchLanguageFiltersResult -> when (action.result) {
+            is AsyncResult.Loading -> state.copy(dialogLoading = true)
+            is AsyncResult.Failure -> state
             is AsyncResult.Success -> state.copy(
                 dialogLoading = false,
-                filters = action.result.data
-            ).withNoEffect()
+                filters = action.data
+            )
         }
 
 
-        is RepositoriesAction.UpdateFilterSelection -> {
+        is UpdateFilterSelection -> {
             val updatedFilters =
                 state.filters.toMutableList().apply {
                     val index = indexOfFirst { it.id == action.id }
@@ -74,7 +78,7 @@ val repositoriesReducer = affectedReducer<RepositoriesState, Action> { state, ef
                     filteredRepositories = state.repositories.toMutableList(),
                     filters = updatedFilters,
                     selectedFilters = selectedFilters
-                ).withNoEffect()
+                )
             else {
                 val filteredRepositories = state.repositories.groupBy { it.language }
                     .filterKeys { selectedFilters.map { filter -> filter.language }.contains(it) }
@@ -83,10 +87,10 @@ val repositoriesReducer = affectedReducer<RepositoriesState, Action> { state, ef
                     filteredRepositories = filteredRepositories.toMutableList(),
                     filters = updatedFilters,
                     selectedFilters = selectedFilters
-                ).withNoEffect()
+                )
             }
         }
 
-        else -> state.withNoEffect()
+        else -> state
     }
-    }
+}

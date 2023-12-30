@@ -1,4 +1,4 @@
-package com.atwa.rekompose.feature.filter
+package com.atwa.rekompose.feature.filter.presentation
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,6 +11,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.atwa.rekompose.feature.filter.domain.LanguageFilter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -1,5 +1,6 @@
-package com.atwa.rekompose.feature.repositories
+package com.atwa.rekompose.feature.repositories.data
 
+import com.atwa.rekompose.feature.repositories.domain.Repository
 import kotlinx.serialization.Serializable
 
 
