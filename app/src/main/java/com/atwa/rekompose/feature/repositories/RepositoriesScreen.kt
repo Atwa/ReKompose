@@ -47,16 +47,16 @@ import com.atwa.rekompose.designsystem.components.ShimmerItem
 import com.atwa.rekompose.designsystem.theme.Grey200
 import com.atwa.rekompose.designsystem.theme.Teal500
 import com.atwa.rekompose.feature.filter.RepositoryFilterChips
-import com.atwa.rekompose.feature.filter.RepositoryLanguageFilter
+import com.atwa.rekompose.feature.filter.LanguageFilter
 import com.atwa.rekompose.store.AppState
 
 
 @Composable
 fun RepositoriesScreen() {
     val state by selectAffectedState<AppState, RepositoriesState> { repositories }
-    val filters by selectAffectedState<AppState, List<RepositoryLanguageFilter>> { repositories.selectedFilters }
+    val filters by selectAffectedState<AppState, List<LanguageFilter>> { repositories.selectedFilters }
     val dispatch = rememberAffectedDispatcher<RepositoriesAction>()
-    LaunchedEffect(Unit) {
+    LaunchedEffect(true) {
         dispatch(RepositoriesAction.FetchRepositories)
     }
     Column {

@@ -19,14 +19,12 @@ import com.atwa.rekompose.feature.repositories.RepositoriesAction
 import com.atwa.rekompose.store.AppState
 import com.atwa.rekompose.designsystem.theme.BlueNavy
 import com.atwa.rekompose.designsystem.theme.Grey200
-import org.reduxkotlin.compose.rememberTypedDispatcher
-import org.reduxkotlin.compose.selectState
 
 @Composable
 fun RepositoryFilterDialog(
     onDismissRequest: () -> Unit,
 ) {
-    val filters by selectAffectedState<AppState, List<RepositoryLanguageFilter>> { repositories.filters }
+    val filters by selectAffectedState<AppState, List<LanguageFilter>> { repositories.filters }
     val loading by selectAffectedState<AppState, Boolean> { repositories.dialogLoading }
     val dispatch = rememberAffectedDispatcher<RepositoriesAction>()
     LaunchedEffect(Unit) {

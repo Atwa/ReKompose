@@ -22,9 +22,9 @@ sealed interface TestAction : Action {
 val testReducer = affectedReducer<TestState, Action> { state, effect, action ->
     Log.d("THREAD NAME : ", "Reducer running on thread ${Thread.currentThread().name}")
     when (action) {
-        is TestAction.FetchTests -> state.copy(isLoading = true).withSuspendEffect {
+        /*is TestAction.FetchTests -> state.copy(isLoading = true).withSuspendEffect {
             ServiceLocator.githubRepo.fetchTrendingRepo()
-        }
+        }*/
 
         is TestAction.FetchTestsSuccess -> state.copy(
             isLoading = false,

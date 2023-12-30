@@ -2,29 +2,32 @@ package com.atwa.rekompose.feature.repositories
 
 import android.util.Log
 import com.atwa.rekompose.core.di.ServiceLocator
-import com.atwa.rekompose.core.effect.AffectedReducer
 import com.atwa.rekompose.core.effect.affectedReducer
 import com.atwa.rekompose.core.effect.withNoEffect
-import com.atwa.rekompose.core.effect.withSuspendEffect
-import com.atwa.rekompose.feature.filter.RepositoryLanguageFilter
+import com.atwa.rekompose.core.middleware.AsyncAction
+import com.atwa.rekompose.core.middleware.AsyncResult
+import com.atwa.rekompose.feature.filter.LanguageFilter
 import com.atwa.rekompose.store.Action
 
 sealed interface RepositoriesAction : Action {
-    object FetchRepositories : RepositoriesAction
-    data class FetchRepositoriesSuccess(val repositories: List<Repository>) : RepositoriesAction
-    data class FetchRepositoriesFailure(val error: String) : RepositoriesAction
-    object FetchLanguageFilters : RepositoriesAction
-    data class FetchLanguageFiltersSuccess(val languageFilters: MutableList<RepositoryLanguageFilter>) :
-        RepositoriesAction
+    object FetchRepositories : RepositoriesAction, AsyncAction<List<Repository>>({
+        ServiceLocator.githubRepo.fetchTrendingRepo()
+    })
+
+    object FetchLanguageFilters : RepositoriesAction, AsyncAction<List<LanguageFilter>>({
+        ServiceLocator.githubRepo.fetchLanguageFilters()
+    })
 
     data class UpdateFilterSelection(val id: Int, val isSelected: Boolean) : RepositoriesAction
 }
 
+
+
 data class RepositoriesState(
     val isLoading: Boolean = false,
     val error: String? = null,
-    val filters: List<RepositoryLanguageFilter> = listOf(),
-    val selectedFilters: List<RepositoryLanguageFilter> = listOf(),
+    val filters: List<LanguageFilter> = listOf(),
+    val selectedFilters: List<LanguageFilter> = listOf(),
     val filteredRepositories: MutableList<Repository> = mutableListOf(),
     val repositories: List<Repository> = listOf(),
     val dialogLoading: Boolean = false,
@@ -34,32 +37,30 @@ data class RepositoriesState(
 val repositoriesReducer = affectedReducer<RepositoriesState, Action> { state, effect, action ->
     Log.d("THREAD NAME : ", "Reducer running on thread ${Thread.currentThread().name}")
     when (action) {
-        is RepositoriesAction.FetchRepositories -> state.copy(isLoading = true).withSuspendEffect {
-            ServiceLocator.githubRepo.fetchTrendingRepo()
+        is RepositoriesAction.FetchRepositories -> when (action.result) {
+            is AsyncResult.Loading -> state.copy(isLoading = true).withNoEffect()
+            is AsyncResult.Success -> state.copy(
+                isLoading = false,
+                error = null,
+                repositories = action.data!!,
+                filteredRepositories = action.result.data.toMutableList()
+            ).withNoEffect()
+            is AsyncResult.Failure -> state.copy(
+                isLoading = false,
+                error = action.error!!,
+                repositories = listOf()
+            ).withNoEffect()
         }
 
-        is RepositoriesAction.FetchRepositoriesSuccess -> state.copy(
-            isLoading = false,
-            error = null,
-            repositories = action.repositories,
-            filteredRepositories = action.repositories.toMutableList()
-        ).withNoEffect()
+        is RepositoriesAction.FetchLanguageFilters -> when (action.result) {
+            is AsyncResult.Loading -> state.copy(dialogLoading = true).withNoEffect()
+            is AsyncResult.Failure -> state.withNoEffect()
+            is AsyncResult.Success -> state.copy(
+                dialogLoading = false,
+                filters = action.result.data
+            ).withNoEffect()
+        }
 
-        is RepositoriesAction.FetchRepositoriesFailure -> state.copy(
-            isLoading = false,
-            error = action.error,
-            repositories = listOf()
-        ).withNoEffect()
-
-        is RepositoriesAction.FetchLanguageFilters -> state.copy(dialogLoading = true)
-            .withSuspendEffect {
-                ServiceLocator.githubRepo.fetchLanguageFilters()
-            }
-
-        is RepositoriesAction.FetchLanguageFiltersSuccess -> state.copy(
-            dialogLoading = false,
-            filters = action.languageFilters
-        ).withNoEffect()
 
         is RepositoriesAction.UpdateFilterSelection -> {
             val updatedFilters =

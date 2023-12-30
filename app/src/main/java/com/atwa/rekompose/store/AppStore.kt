@@ -9,6 +9,7 @@ import com.atwa.rekompose.core.effect.applyAffectedMiddleware
 import com.atwa.rekompose.core.effect.createAffectedThreadSafeStore
 import com.atwa.rekompose.core.effect.partialReduce
 import com.atwa.rekompose.core.effect.withEffect
+import com.atwa.rekompose.core.middleware.asyncMiddleware
 import com.atwa.rekompose.core.middleware.coroutineDispatcherMiddleware
 import com.atwa.rekompose.core.middleware.loggerMiddleware
 import com.atwa.rekompose.feature.repositories.RepositoriesAction
@@ -38,6 +39,7 @@ val appStore = createAffectedThreadSafeStore(
     rootReducer,
     AppState(),
     applyAffectedMiddleware(
+        asyncMiddleware(coroutineScope,20000),
         coroutineDispatcherMiddleware(coroutineScope),
         loggerMiddleware()
     ),
@@ -57,6 +59,7 @@ data class AppState(
 )
 
 interface Action {
+    fun isComplete() = true
     object INIT : Action
     object REPLACE : Action
 }

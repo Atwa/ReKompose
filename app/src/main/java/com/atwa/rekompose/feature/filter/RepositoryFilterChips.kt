@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RepositoryFilterChips(
-    filters: List<RepositoryLanguageFilter>,
+    filters: List<LanguageFilter>,
     onRemoveFilter: (Int) -> Unit,
 ) {
 

@@ -5,16 +5,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.reduxkotlin.GetState
-import org.reduxkotlin.StoreEnhancer
 import org.reduxkotlin.StoreSubscriber
 import org.reduxkotlin.StoreSubscription
 import org.reduxkotlin.TypedDispatcher
-import org.reduxkotlin.TypedReducer
 import org.reduxkotlin.TypedStore
-import org.reduxkotlin.asTyped
-import org.reduxkotlin.createStore
 import org.reduxkotlin.threadsafe.createThreadSafeStore
-import org.reduxkotlin.typedReducer
 
 fun <State, Action : Any> createAffectedStore(
     reducer: AffectedReducer<State, Action>,
@@ -250,20 +245,6 @@ fun <State, Action : Any> createAffectedStore(
         override val replaceReducer: (AffectedReducer<State, Action>) -> Unit = ::replaceReducer
     }
 }
-
-
-/**
- * Creates a [TypedStore]. For further details see the matching [createStore].
- */
-inline fun <State, reified Action : Any> createTypedStore(
-    crossinline reducer: TypedReducer<State, Action>,
-    preloadedState: State,
-    noinline enhancer: StoreEnhancer<State>? = null,
-): TypedStore<State, Action> = createStore(
-    reducer = typedReducer(reducer),
-    preloadedState,
-    enhancer,
-).asTyped()
 
 /**
  * Creates a thread-safe [TypedStore]. For further details see the matching [createThreadSafeStore].
