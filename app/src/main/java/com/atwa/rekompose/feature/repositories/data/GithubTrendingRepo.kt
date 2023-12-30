@@ -1,11 +1,12 @@
 package com.atwa.rekompose.feature.repositories.data
 
 import android.util.Log
-import com.atwa.rekompose.app.Action
+import com.atwa.rekompose.core.action.Action
 import com.atwa.rekompose.core.network.ApiClient
 import com.atwa.rekompose.feature.filter.domain.LanguageFilter
 import com.atwa.rekompose.feature.repositories.presentation.RepositoriesAction
-import com.atwa.rekompose.feature.repositories.presentation.RepositoriesAction.FetchRepositoriesResult
+import com.atwa.rekompose.feature.repositories.presentation.RepositoriesAction.FetchLanguageFiltersAsync
+import com.atwa.rekompose.feature.repositories.presentation.RepositoriesAction.FetchRepositoriesAsync
 import kotlinx.coroutines.flow.flow
 
 class GithubTrendingRepo(
@@ -13,19 +14,19 @@ class GithubTrendingRepo(
 ) {
 
     fun fetchTrendingRepo(query: String = "language") = flow<Action> {
-        Log.d("THREAD NAME : ", "Repo running on thread ${Thread.currentThread().name}")
-        emit(FetchRepositoriesResult.loading())
+        emit(FetchRepositoriesAsync.loading())
         apiClient.invokeCall<RepositoriesResponse>(
             FETCH_REPOS,
             hashMapOf(Pair("q", query))
         ).fold({ response ->
-            FetchRepositoriesResult.success(response.items.map { it.toDomain() })
+            FetchRepositoriesAsync.success(response.items.map { it.toDomain() })
         }, { error ->
-            FetchRepositoriesResult.failure(error)
+            FetchRepositoriesAsync.failure(error)
         }).let { emit(it) }
     }
 
     fun fetchLanguageFilters() = flow {
+        emit(FetchLanguageFiltersAsync.loading())
         mutableListOf(
             LanguageFilter(1, "Python"),
             LanguageFilter(2, "C++"),
@@ -36,7 +37,7 @@ class GithubTrendingRepo(
             LanguageFilter(7, "JavaScript"),
             LanguageFilter(8, "Julia")
         ).let { filters ->
-            emit(RepositoriesAction.FetchLanguageFiltersResult().success(filters))
+            emit(FetchLanguageFiltersAsync.success(filters))
         }
     }
 

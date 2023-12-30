@@ -58,7 +58,7 @@ fun RepositoriesScreen() {
     val filters by selectState<AppState, List<LanguageFilter>> { repositories.selectedFilters }
     val dispatch = rememberDispatcher()
     LaunchedEffect(true) {
-        dispatch(RepositoriesAction.FetchRepositories)
+        dispatch(RepositoriesAction.FetchRepositoriesEffect)
     }
     Column {
         if (filters.isNotEmpty()) {
@@ -74,7 +74,7 @@ fun RepositoriesScreen() {
         }
         when {
             state.isLoading -> ShimmerEffectList()
-            state.error?.isNotBlank() == true -> ErrorScreen { dispatch(RepositoriesAction.FetchRepositories) }
+            state.error?.isNotBlank() == true -> ErrorScreen { dispatch(RepositoriesAction.FetchRepositoriesEffect) }
             state.filteredRepositories.isNotEmpty() -> RepositoriesList(state.filteredRepositories)
         }
     }

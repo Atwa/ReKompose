@@ -2,8 +2,8 @@ package com.atwa.rekompose.app
 
 import androidx.compose.runtime.Composable
 import com.atwa.rekompose.core.di.ServiceLocator.coroutineScope
-import com.atwa.rekompose.core.middleware.asyncMiddleware
 import com.atwa.rekompose.core.middleware.loggerMiddleware
+import com.atwa.rekompose.core.middleware.sideEffectMiddleware
 import com.atwa.rekompose.feature.repositories.presentation.RepositoriesState
 import com.atwa.rekompose.feature.repositories.presentation.repositoriesReducer
 import org.reduxkotlin.applyMiddleware
@@ -17,7 +17,7 @@ fun AppStore() = StoreProvider(
         ::rootReducer,
         AppState(),
         applyMiddleware(
-            asyncMiddleware(coroutineScope),
+            sideEffectMiddleware(coroutineScope),
             loggerMiddleware()
         )
     )
@@ -33,7 +33,4 @@ data class AppState(
     val repositories: RepositoriesState = RepositoriesState(),
 )
 
-interface Action {
-    object INIT : Action
-    object REPLACE : Action
-}
+

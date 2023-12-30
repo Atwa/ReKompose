@@ -60,7 +60,6 @@ dependencies {
     implementation("androidx.compose.material3:material3:1.0.0-alpha11")
 
     implementation("org.reduxkotlin:redux-kotlin-compose-jvm:$reduxKotlin")
-    implementation("org.reduxkotlin:redux-kotlin-thunk-jvm:$reduxKotlin")
     implementation("org.reduxkotlin:redux-kotlin-threadsafe:$reduxKotlin")
 
     implementation ("io.ktor:ktor-client-android:$ktorVersion")

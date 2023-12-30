@@ -6,7 +6,6 @@ import com.atwa.rekompose.core.threading.AppCoroutineScope
 import kotlinx.coroutines.*
 
 object ServiceLocator {
-    @OptIn(DelicateCoroutinesApi::class)
     val coroutineScope by lazy { AppCoroutineScope }
     val githubRepo by lazy { GithubTrendingRepo(ApiClient) }
 }
