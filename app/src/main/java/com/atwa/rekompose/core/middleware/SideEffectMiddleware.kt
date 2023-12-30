@@ -1,6 +1,7 @@
 package com.atwa.rekompose.core.middleware
 
 import com.atwa.rekompose.app.AppState
+import com.atwa.rekompose.core.action.AsyncAction
 import com.atwa.rekompose.core.action.SideEffect
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -11,7 +12,7 @@ import org.reduxkotlin.middleware
 
 
 fun sideEffectMiddleware(scope: CoroutineScope) = middleware<AppState> { store, next, action ->
-    scope.launch() {
+    scope.launch {
         when (action) {
             is SideEffect -> action.run().flowOn(Dispatchers.IO).transformWhile { flowAction ->
                 emit(flowAction)

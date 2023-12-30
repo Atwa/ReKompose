@@ -31,11 +31,17 @@ data class RepositoriesState(
     val isLoading: Boolean = false,
     val error: String? = null,
     val filters: List<LanguageFilter> = listOf(),
-    val selectedFilters: List<LanguageFilter> = listOf(),
-    val filteredRepositories: MutableList<Repository> = mutableListOf(),
     val repositories: List<Repository> = listOf(),
     val dialogLoading: Boolean = false,
-)
+) {
+    val filteredRepositories
+        get() = if (selectedFilters.isEmpty()) repositories
+        else repositories.groupBy { it.language }.filterKeys { key ->
+            selectedFilters.map { filter -> filter.language }.contains(key)
+        }.flatMap { map -> map.value }
+
+    val selectedFilters get() = filters.filter { it.isSelected }
+}
 
 val repositoriesReducer = typedReducer<RepositoriesState, Action> { state, action ->
     Log.d("THREAD NAME : ", "Reducer running on thread ${Thread.currentThread().name}")
@@ -45,8 +51,7 @@ val repositoriesReducer = typedReducer<RepositoriesState, Action> { state, actio
             is AsyncStatus.Success -> state.copy(
                 isLoading = false,
                 error = null,
-                repositories = action.data,
-                filteredRepositories = action.data.toMutableList()
+                repositories = action.data
             )
 
             is AsyncStatus.Failure -> state.copy(
@@ -66,29 +71,10 @@ val repositoriesReducer = typedReducer<RepositoriesState, Action> { state, actio
         }
 
 
-        is UpdateFilterSelection -> {
-            val updatedFilters =
-                state.filters.toMutableList().apply {
-                    val index = indexOfFirst { it.id == action.id }
-                    this[index] = this[index].copy(isSelected = action.isSelected)
-                }
-            val selectedFilters = updatedFilters.filter { it.isSelected }
-            if (selectedFilters.isEmpty())
-                state.copy(
-                    filteredRepositories = state.repositories.toMutableList(),
-                    filters = updatedFilters,
-                    selectedFilters = selectedFilters
-                )
-            else {
-                val filteredRepositories = state.repositories.groupBy { it.language }
-                    .filterKeys { selectedFilters.map { filter -> filter.language }.contains(it) }
-                    .flatMap { it.value }
-                state.copy(
-                    filteredRepositories = filteredRepositories.toMutableList(),
-                    filters = updatedFilters,
-                    selectedFilters = selectedFilters
-                )
-            }
+        is UpdateFilterSelection -> state.filters.toMutableList().run {
+            val index = indexOfFirst { it.id == action.id }
+            this[index] = this[index].copy(isSelected = action.isSelected)
+            state.copy(filters = this)
         }
 
         else -> state

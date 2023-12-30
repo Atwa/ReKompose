@@ -9,6 +9,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
@@ -41,7 +42,12 @@ fun RepositoryFilterDialog(
                 .background(MaterialTheme.colorScheme.surface)
         ) {
             when {
-                loading -> CircularProgressIndicator()
+                loading -> Box(
+                        contentAlignment = Center,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        CircularProgressIndicator()
+                    }
                 else -> {
                     LazyColumn(contentPadding = PaddingValues(16.dp, 8.dp, 0.dp, 8.dp)) {
                         items(items = filters, key = { filter -> filter.id }) { filter ->

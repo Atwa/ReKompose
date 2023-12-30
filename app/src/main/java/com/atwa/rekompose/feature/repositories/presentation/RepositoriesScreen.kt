@@ -55,14 +55,13 @@ import org.reduxkotlin.compose.selectState
 @Composable
 fun RepositoriesScreen() {
     val state by selectState<AppState, RepositoriesState> { repositories }
-    val filters by selectState<AppState, List<LanguageFilter>> { repositories.selectedFilters }
     val dispatch = rememberDispatcher()
     LaunchedEffect(true) {
         dispatch(RepositoriesAction.FetchRepositoriesEffect)
     }
     Column {
-        if (filters.isNotEmpty()) {
-            RepositoryFilterChips(filters) { id ->
+        if (state.selectedFilters.isNotEmpty()) {
+            RepositoryFilterChips(state.selectedFilters) { id ->
                 dispatch(
                     RepositoriesAction.UpdateFilterSelection(
                         id,
