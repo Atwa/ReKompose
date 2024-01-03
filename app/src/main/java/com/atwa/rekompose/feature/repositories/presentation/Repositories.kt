@@ -1,6 +1,7 @@
 package com.atwa.rekompose.feature.repositories.presentation
 
 import android.util.Log
+import androidx.compose.runtime.Immutable
 import com.atwa.rekompose.core.action.Action
 import com.atwa.rekompose.core.action.AsyncAction
 import com.atwa.rekompose.core.action.AsyncStatus
@@ -27,6 +28,7 @@ sealed interface RepositoriesAction : Action {
     data class UpdateFilterSelection(val id: Int, val isSelected: Boolean) : RepositoriesAction
 }
 
+@Immutable
 data class RepositoriesState(
     val isLoading: Boolean = false,
     val error: String? = null,
@@ -44,7 +46,6 @@ data class RepositoriesState(
 }
 
 val repositoriesReducer = typedReducer<RepositoriesState, Action> { state, action ->
-    Log.d("THREAD NAME : ", "Reducer running on thread ${Thread.currentThread().name}")
     when (action) {
         is FetchRepositoriesAsync -> when (action.status) {
             is AsyncStatus.Loading -> state.copy(isLoading = true)
@@ -69,7 +70,6 @@ val repositoriesReducer = typedReducer<RepositoriesState, Action> { state, actio
                 filters = action.data
             )
         }
-
 
         is UpdateFilterSelection -> state.filters.toMutableList().run {
             val index = indexOfFirst { it.id == action.id }

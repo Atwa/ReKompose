@@ -1,6 +1,7 @@
 package com.atwa.rekompose.app
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import com.atwa.rekompose.core.di.ServiceLocator.coroutineScope
 import com.atwa.rekompose.core.middleware.loggerMiddleware
 import com.atwa.rekompose.core.middleware.sideEffectMiddleware
@@ -29,6 +30,7 @@ fun rootReducer(state: AppState, action: Any) = AppState(
     repositories = repositoriesReducer(state.repositories, action),
 )
 
+@Immutable
 data class AppState(
     val repositories: RepositoriesState = RepositoriesState(),
 )

@@ -41,12 +41,11 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.atwa.rekompose.R
+import com.atwa.rekompose.app.AppState
 import com.atwa.rekompose.designsystem.components.ShimmerItem
 import com.atwa.rekompose.designsystem.theme.Grey200
 import com.atwa.rekompose.designsystem.theme.Teal500
-import com.atwa.rekompose.feature.filter.domain.LanguageFilter
 import com.atwa.rekompose.feature.filter.presentation.RepositoryFilterChips
-import com.atwa.rekompose.app.AppState
 import com.atwa.rekompose.feature.repositories.domain.Repository
 import org.reduxkotlin.compose.rememberDispatcher
 import org.reduxkotlin.compose.selectState
@@ -83,7 +82,7 @@ fun RepositoriesScreen() {
 @Preview
 fun ShimmerEffectList() {
     LazyColumn(contentPadding = PaddingValues(16.dp, 8.dp, 0.dp, 8.dp)) {
-        items(20) {
+        items(count = 20, key = { it }) {
             ShimmerItem(
                 modifier = Modifier
                     .fillMaxWidth()
