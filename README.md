@@ -29,12 +29,14 @@ The app can be migrated to be a multiplatform project easily since it's pure kot
 
 **Please note that each developer has his own style in coding ,The goal is to implement the concepts of the design and architecting in the right way .**
 
-![Loading_Shimmer](loading_shimmer.png)
-![Repositories](repositories.png)
-![Filters List](filters_list.png)
-![Filters Dialog with Selected Filters](filters_dialog_selected.png)
-![Filtered Repositores](repositories_list_with_filter.png)
-![Error](error_screen.png)
+
+| Loading| Repositories | Filters |
+|:-----:|:--------:|:--------:|
+| <img src="loading_shimmer.png" width="200" hspace="2" alt="loading" /> | <img src="repositories.png" width="200" hspace="2" alt="repositories" /> |<img src="filters_list.png" width="200" hspace="2" alt="filters list" /> |
+
+| Selected Dialog Filter | Filtered Repositories | Error |
+|:-----:|:--------:|:--------:|
+| <img src="filters_dialog_selected.png" width="200" hspace="2" alt="filters dialog" /> | <img src="repositories_list_with_filter.png" width="200" hspace="2" alt="filtered" /> |<img src="error_screen.png" width="200" hspace="2" alt="error" /> |
 
 ### Contribution
 
