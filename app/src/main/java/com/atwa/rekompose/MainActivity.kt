@@ -3,7 +3,7 @@ package com.atwa.rekompose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.atwa.rekompose.core.di.ServiceLocator.coroutineScope
+import com.atwa.rekompose.di.DI.coroutineScope
 import com.atwa.rekompose.app.AppStore
 
 class MainActivity : ComponentActivity() {

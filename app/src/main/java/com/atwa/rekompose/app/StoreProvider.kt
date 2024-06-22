@@ -2,11 +2,11 @@ package com.atwa.rekompose.app
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import com.atwa.rekompose.core.di.ServiceLocator.coroutineScope
+import com.atwa.rekompose.di.DI.coroutineScope
 import com.atwa.rekompose.core.middleware.loggerMiddleware
 import com.atwa.rekompose.core.middleware.sideEffectMiddleware
-import com.atwa.rekompose.feature.repositories.presentation.RepositoriesState
-import com.atwa.rekompose.feature.repositories.presentation.repositoriesReducer
+import com.atwa.rekompose.feature.repositories.RepositoriesState
+import com.atwa.rekompose.feature.repositories.repositoriesReducer
 import org.reduxkotlin.applyMiddleware
 import org.reduxkotlin.compose.StoreProvider
 import org.reduxkotlin.threadsafe.createTypedThreadSafeStore

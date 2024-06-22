@@ -1,19 +1,18 @@
 package com.atwa.rekompose.core.network
 
-import io.ktor.client.*
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.*
-import io.ktor.client.features.logging.*
-import io.ktor.client.request.*
-import io.ktor.client.response.*
-import io.ktor.http.*
-import io.ktor.util.*
-import kotlinx.coroutines.*
-import kotlinx.serialization.*
+import io.ktor.client.HttpClient
+import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.features.logging.LogLevel
+import io.ktor.client.features.logging.Logging
+import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.client.request.get
+import io.ktor.client.request.header
+import io.ktor.http.HttpHeaders
+import io.ktor.http.takeFrom
+import io.ktor.util.KtorExperimentalAPI
 
-object ApiClient {
-
-    private const val baseUrl = "https://api.github.com/"
+class ApiClient(private val baseUrl: String) {
 
     suspend inline fun <reified T> invokeCall(
         path: String,
@@ -63,6 +62,7 @@ object ApiClient {
         }
     }
 }
+
 
 data class NetworkException(override val message: String) : Exception()
 
