@@ -1,7 +1,7 @@
 buildscript {
     allprojects {
         extra.apply {
-            set("compose_version", "1.3.0")
+            set("compose_version", "1.5.3")
             set("redux_kotlin", "0.6.0")
             set("ktor", "1.5.0")
         }
@@ -15,9 +15,9 @@ buildscript {
 
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:7.0.4")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10")
-        classpath("org.jetbrains.kotlin:kotlin-serialization:1.7.10")
+        classpath("com.android.tools.build:gradle:8.2.0")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10")
+        classpath("org.jetbrains.kotlin:kotlin-serialization:1.9.10")
 
     }
 }

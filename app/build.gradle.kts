@@ -1,5 +1,3 @@
-@file:Suppress("UnstableApiUsage")
-
 plugins {
     id("com.android.application")
     id("kotlinx-serialization")
@@ -15,14 +13,15 @@ val ktorVersion = extra.get("ktor") as String
 
 android {
     namespace = "com.atwa.rekompose"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.atwa.rekompose"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+        multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -70,6 +69,7 @@ dependencies {
     implementation("com.airbnb.android:lottie-compose:6.1.0")
     implementation ("com.google.accompanist:accompanist-systemuicontroller:0.31.5-beta")
     implementation("io.coil-kt:coil-compose:2.0.0-rc01")
+    implementation("androidx.multidex:multidex:2.0.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

@@ -2,13 +2,15 @@ package com.atwa.rekompose.core.middleware
 
 import android.util.Log
 import com.atwa.rekompose.app.AppState
+import com.atwa.rekompose.core.action.Action
+import com.atwa.rekompose.core.action.AsyncAction
 import org.reduxkotlin.middleware
 
 fun loggerMiddleware() = middleware<AppState> { store, next, action ->
     next(action)
-    Log.d("THREAD NAME : ","Logger running on thread ${Thread.currentThread().name}")
-    Log.d("LOGGER - ****** :", "******************************************************************")
-    Log.d("LOGGER - ACTION : ", action.toString())
+    Log.v("LOGGER - ****** :", "******************************************************************************************************************************")
+    if (action is AsyncAction<*>) Log.d("LOGGER - ACTION : ", action.log())
+    else Log.d("LOGGER - ACTION : ", action.toString())
     Log.d("LOGGER - STATE : ", "${store.state}")
-    Log.d("LOGGER - ****** :", "******************************************************************")
+    Log.v("LOGGER - ****** :", "******************************************************************************************************************************")
 }

@@ -30,7 +30,7 @@ fun RepositoryFilterDialog(
     val dispatch = rememberDispatcher()
     LaunchedEffect(Unit) {
         if (filters.isEmpty())
-            dispatch(RepositoriesAction.FetchLanguageFiltersAction)
+            dispatch(RepositoriesAction.FetchLanguageFiltersAsync)
     }
     Dialog(onDismissRequest = onDismissRequest) {
         Box(
