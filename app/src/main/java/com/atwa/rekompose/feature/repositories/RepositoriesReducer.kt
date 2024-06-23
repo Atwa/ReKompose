@@ -2,14 +2,14 @@ package com.atwa.rekompose.feature.repositories
 
 import com.atwa.rekompose.core.action.Action
 import com.atwa.rekompose.core.action.AsyncStatus
-import com.atwa.rekompose.feature.repositories.RepositoriesAction.FetchLanguageFiltersAsync
-import com.atwa.rekompose.feature.repositories.RepositoriesAction.FetchRepositoriesAsync
+import com.atwa.rekompose.feature.repositories.RepositoriesAction.FetchLanguageFilters
+import com.atwa.rekompose.feature.repositories.RepositoriesAction.FetchRepositories
 import com.atwa.rekompose.feature.repositories.RepositoriesAction.UpdateFilterSelection
 import org.reduxkotlin.typedReducer
 
 val repositoriesReducer = typedReducer<RepositoriesState, Action> { state, action ->
     when (action) {
-        is FetchRepositoriesAsync -> when (action.status) {
+        is FetchRepositories -> when (action.status) {
             is AsyncStatus.Initial -> state.copy(isLoading = true)
             is AsyncStatus.Success -> state.copy(
                 isLoading = false,
@@ -24,7 +24,7 @@ val repositoriesReducer = typedReducer<RepositoriesState, Action> { state, actio
             )
         }
 
-        is FetchLanguageFiltersAsync -> when (action.status) {
+        is FetchLanguageFilters -> when (action.status) {
             is AsyncStatus.Initial -> state.copy(dialogLoading = true)
             is AsyncStatus.Failure -> state
             is AsyncStatus.Success -> state.copy(

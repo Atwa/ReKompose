@@ -55,7 +55,7 @@ fun RepositoriesScreen() {
     val state by selectState<AppState, RepositoriesState> { repositories }
     val dispatch = rememberDispatcher()
     LaunchedEffect(true) {
-        dispatch(RepositoriesAction.FetchRepositoriesAsync)
+        dispatch(RepositoriesAction.FetchRepositories)
     }
     Column {
         if (state.selectedFilters.isNotEmpty()) {
@@ -71,7 +71,7 @@ fun RepositoriesScreen() {
         }
         when {
             state.isLoading -> ShimmerEffectList()
-            state.error?.isNotBlank() == true -> ErrorScreen { dispatch(RepositoriesAction.FetchRepositoriesAsync) }
+            state.error?.isNotBlank() == true -> ErrorScreen { dispatch(RepositoriesAction.FetchRepositories) }
             state.filteredRepositories.isNotEmpty() -> RepositoriesList(state.filteredRepositories)
         }
     }

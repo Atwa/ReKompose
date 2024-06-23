@@ -1,18 +1,17 @@
 package com.atwa.rekompose.feature.repositories
 
 import com.atwa.rekompose.core.action.Action
-import com.atwa.rekompose.core.action.AsyncAction
-import com.atwa.rekompose.di.DI
+import com.atwa.rekompose.core.action.SuspendAction
+import com.atwa.rekompose.di.DI.githubRepo
 import com.atwa.rekompose.feature.filter.LanguageFilter
 
 sealed interface RepositoriesAction : Action {
-    data object FetchRepositoriesAsync : RepositoriesAction, AsyncAction<List<Repository>>() {
-        override fun run() = DI.githubRepo.fetchTrendingRepo()
+    data object FetchRepositories : RepositoriesAction, SuspendAction<List<Repository>>() {
+        override suspend fun run() = githubRepo.fetchTrendingRepos()
     }
 
-    data object FetchLanguageFiltersAsync : RepositoriesAction,
-        AsyncAction<List<LanguageFilter>>() {
-        override fun run() = DI.githubRepo.fetchLanguageFilters()
+    data object FetchLanguageFilters : RepositoriesAction, SuspendAction<List<LanguageFilter>>() {
+        override suspend fun run() = githubRepo.fetchLanguageFilters()
     }
 
     data class UpdateFilterSelection(val id: Int, val isSelected: Boolean) : RepositoriesAction

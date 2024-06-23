@@ -10,9 +10,6 @@ abstract class AsyncAction<T : Any> : Action {
 
     var status: AsyncStatus<T> = Initial()
 
-    override fun isComplete() = status !is Initial
-
-    abstract fun run(): Flow<Action>
     fun log() = "${toString()} - $status"
     fun isInitial() = status is Initial
 
