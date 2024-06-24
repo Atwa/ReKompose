@@ -1,6 +1,6 @@
 package com.atwa.rekompose.di
 
-import com.atwa.rekompose.feature.repositories.RepositoriesTrendingRepo
+import com.atwa.rekompose.feature.repositories.data.RepositoriesTrendingRepo
 import com.atwa.rekompose.core.network.ApiClient
 import com.atwa.rekompose.core.threading.AppCoroutineScope
 

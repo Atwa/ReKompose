@@ -27,8 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.atwa.rekompose.R
 import com.atwa.rekompose.designsystem.theme.rekomposeSampleTheme
-import com.atwa.rekompose.feature.filter.RepositoryFilterDialog
-import com.atwa.rekompose.feature.repositories.RepositoriesScreen
+import com.atwa.rekompose.feature.repositories.presentation.RepositoryFilterDialog
+import com.atwa.rekompose.feature.repositories.presentation.RepositoriesScreen
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

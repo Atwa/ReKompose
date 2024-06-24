@@ -1,4 +1,4 @@
-package com.atwa.rekompose.feature.filter
+package com.atwa.rekompose.feature.repositories.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -14,10 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.atwa.rekompose.feature.repositories.RepositoriesAction
+import com.atwa.rekompose.feature.repositories.domain.RepositoriesAction
 import com.atwa.rekompose.app.AppState
 import com.atwa.rekompose.designsystem.theme.BlueNavy
 import com.atwa.rekompose.designsystem.theme.Grey200
+import com.atwa.rekompose.feature.repositories.domain.LanguageFilter
 import org.reduxkotlin.compose.rememberDispatcher
 import org.reduxkotlin.compose.selectState
 
@@ -28,6 +29,9 @@ fun RepositoryFilterDialog(
     val filters by selectState<AppState, List<LanguageFilter>> { repositories.filters }
     val loading by selectState<AppState, Boolean> { repositories.dialogLoading }
     val dispatch = rememberDispatcher()
+    LaunchedEffect(true){
+        dispatch(RepositoriesAction.FetchFlowNumbers())
+    }
     LaunchedEffect(Unit) {
         if (filters.isEmpty())
             dispatch(RepositoriesAction.FetchLanguageFilters)

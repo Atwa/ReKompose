@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.atwa.rekompose.di.DI.coroutineScope
 import com.atwa.rekompose.app.AppStore
+import kotlinx.coroutines.job
 
 class MainActivity : ComponentActivity() {
 
@@ -19,4 +20,6 @@ class MainActivity : ComponentActivity() {
         coroutineScope.cancel()
         super.onDestroy()
     }
+
+
 }

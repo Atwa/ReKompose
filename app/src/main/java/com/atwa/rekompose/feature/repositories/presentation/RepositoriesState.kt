@@ -1,10 +1,8 @@
-package com.atwa.rekompose.feature.repositories
+package com.atwa.rekompose.feature.repositories.presentation
 
 import androidx.compose.runtime.Immutable
-import com.atwa.rekompose.core.action.Action
-import com.atwa.rekompose.core.action.AsyncAction
-import com.atwa.rekompose.di.DI
-import com.atwa.rekompose.feature.filter.LanguageFilter
+import com.atwa.rekompose.feature.repositories.domain.LanguageFilter
+import com.atwa.rekompose.feature.repositories.domain.Repository
 
 
 @Immutable

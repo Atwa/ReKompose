@@ -11,6 +11,7 @@ object AppCoroutineScope : CoroutineScope {
     override val coroutineContext = Dispatchers.Main + Job()
 
     fun cancel() {
+        coroutineContext.cancelChildren(CancellationException("App Destroyed"))
         coroutineContext.cancel(CancellationException("App Destroyed"))
     }
 

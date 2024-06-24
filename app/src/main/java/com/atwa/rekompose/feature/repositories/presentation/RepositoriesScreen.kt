@@ -1,4 +1,4 @@
-package com.atwa.rekompose.feature.repositories
+package com.atwa.rekompose.feature.repositories.presentation
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
@@ -29,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -36,7 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.AsyncImage
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
@@ -45,7 +45,8 @@ import com.atwa.rekompose.app.AppState
 import com.atwa.rekompose.designsystem.components.ShimmerItem
 import com.atwa.rekompose.designsystem.theme.Grey200
 import com.atwa.rekompose.designsystem.theme.Teal500
-import com.atwa.rekompose.feature.filter.RepositoryFilterChips
+import com.atwa.rekompose.feature.repositories.domain.RepositoriesAction
+import com.atwa.rekompose.feature.repositories.domain.Repository
 import org.reduxkotlin.compose.rememberDispatcher
 import org.reduxkotlin.compose.selectState
 
@@ -95,15 +96,18 @@ fun ShimmerEffectList() {
 @Composable
 fun RepositoriesList(repositories: List<Repository>) {
     LazyColumn(contentPadding = PaddingValues(16.dp, 8.dp, 0.dp, 8.dp)) {
-        items(items = repositories, key = { repo -> repo.id }) { repository ->
-            RepositoryItem(
-                repository = repository,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-            )
-            Divider(color = Grey200)
-        }
+        items(
+            count = repositories.count(),
+            key = { index -> repositories[index].id },
+            itemContent = { index ->
+                RepositoryItem(
+                    repository = repositories[index],
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                )
+                Divider(color = Grey200)
+            })
     }
 }
 
@@ -112,8 +116,9 @@ fun RepositoriesList(repositories: List<Repository>) {
 @Composable
 fun RepositoryItem(repository: Repository, modifier: Modifier) {
     Row(modifier = modifier) {
-        Image(
-            painter = rememberAsyncImagePainter(repository.ownerImageUrl),
+        AsyncImage(
+            model = repository.ownerImageUrl,
+            contentScale = ContentScale.Crop,
             contentDescription = repository.ownerName,
             modifier = Modifier
                 .size(50.dp)
