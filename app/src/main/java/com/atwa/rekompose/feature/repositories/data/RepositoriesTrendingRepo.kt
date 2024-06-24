@@ -1,7 +1,6 @@
 package com.atwa.rekompose.feature.repositories.data
 
 import com.atwa.rekompose.core.action.AsyncStatus.Success
-import com.atwa.rekompose.core.action.SuspendAction
 import com.atwa.rekompose.core.extensions.process
 import com.atwa.rekompose.core.network.ApiClient
 import com.atwa.rekompose.di.DI
@@ -9,9 +8,7 @@ import com.atwa.rekompose.feature.repositories.domain.LanguageFilter
 import com.atwa.rekompose.feature.repositories.domain.RepositoriesAction.FetchFlowNumbers
 import com.atwa.rekompose.feature.repositories.domain.RepositoriesAction.FetchLanguageFilters
 import com.atwa.rekompose.feature.repositories.domain.RepositoriesAction.FetchRepositories
-import com.atwa.rekompose.feature.repositories.domain.Repository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
@@ -30,14 +27,14 @@ class RepositoriesTrendingRepo(
         emit(listOf(25, 26, 27, 28))
     }
 
-    suspend fun fetchTrendingRepos(query: String = "language"): SuspendAction<List<Repository>> {
-       return apiClient.invokeCall<RepositoriesResponse>(
+    suspend fun fetchTrendingRepos(query: String = "language") =
+        apiClient.invokeCall<RepositoriesResponse>(
             FETCH_REPOS,
             hashMapOf(Pair("q", query))
         ).process(FetchRepositories) { response ->
             response.items.map { it.toDomain() }
         }
-    }
+
 
     suspend fun fetchLanguageFilters() = mutableListOf(
         LanguageFilter(1, "Python"),
@@ -52,10 +49,8 @@ class RepositoriesTrendingRepo(
         FetchLanguageFilters.success(filters)
     }
 
-    fun fetchFlowNumbers(): Flow<FetchFlowNumbers> {
-        return numbersFlow.map { list ->
-            FetchFlowNumbers(Success(list))
-        }
+    fun fetchFlowNumbers() = numbersFlow.map { list ->
+        FetchFlowNumbers(Success(list))
     }
 
     companion object {

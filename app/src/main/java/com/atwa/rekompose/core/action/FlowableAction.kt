@@ -6,9 +6,9 @@ import com.atwa.rekompose.core.action.AsyncStatus.Success
 import kotlinx.coroutines.flow.Flow
 
 open class FlowableAction<T : Any>(
-    open val run: () -> Flow<Action>,
     open val status: AsyncStatus<T> = Initial,
-) : Action {
+    val run: () -> Flow<Action>,
+    ) : Action {
 
     override fun log() = "${this::class.java.simpleName} - $status"
     override fun isComplete() = status is Failure
